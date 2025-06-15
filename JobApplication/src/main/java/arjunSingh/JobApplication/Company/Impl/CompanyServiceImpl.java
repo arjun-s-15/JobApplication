@@ -36,6 +36,13 @@ public class CompanyServiceImpl implements CompanyService{
 
     @Override
     public boolean updateCompany(Long id, Company company) {
-        return false;
+        return companyRepository.findById(id).map(existingCompany ->{
+            existingCompany.setDescription(company.getDescription());
+            existingCompany.setName(company.getDescription());
+            existingCompany.setJobs(company.getJobs());
+            companyRepository.save(existingCompany);
+            return true;
+        }).orElse(false);
+
     }
 }
