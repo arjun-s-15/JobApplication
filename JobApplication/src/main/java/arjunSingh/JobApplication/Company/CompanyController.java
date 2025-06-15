@@ -21,6 +21,16 @@ public class CompanyController {
             return companyService.getAllCompanies();
         }
 
+        @PutMapping
+        public ResponseEntity<String> updateCompany(@PathVariable Long id,@RequestBody Company company){
+            boolean updated = companyService.updateCompany(id, company);
+            if(updated){
+                return ResponseEntity.ok("Company Updated Successfully");
+            }else{
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).body("company not found");
+            }
+        }
+
 
 
 }
