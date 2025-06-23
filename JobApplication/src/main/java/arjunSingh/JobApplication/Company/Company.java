@@ -1,6 +1,9 @@
 package arjunSingh.JobApplication.Company;
 
 import arjunSingh.JobApplication.Job.Job;
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -18,8 +21,8 @@ public class Company {
     private Long id;
     private String name;
     private String description;
-
-    @OneToMany
+    @OneToMany(mappedBy = "company",cascade = CascadeType.ALL)
+    @JsonIgnore
     private List<Job> jobs;
 
     public Company() {

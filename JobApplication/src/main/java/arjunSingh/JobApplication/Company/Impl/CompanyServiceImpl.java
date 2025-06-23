@@ -3,6 +3,7 @@ package arjunSingh.JobApplication.Company.Impl;
 import arjunSingh.JobApplication.Company.Company;
 import arjunSingh.JobApplication.Company.CompanyRepository;
 import arjunSingh.JobApplication.Company.CompanyService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -12,7 +13,12 @@ import java.util.Optional;
 
 public class CompanyServiceImpl implements CompanyService{
 
-    private CompanyRepository companyRepository;
+    private final CompanyRepository companyRepository;
+
+    public CompanyServiceImpl(CompanyRepository companyRepository) {
+        this.companyRepository = companyRepository;
+    }
+
 
     @Override
     public List<Company> getAllCompanies() {
@@ -20,8 +26,8 @@ public class CompanyServiceImpl implements CompanyService{
     }
 
     @Override
-    public void addCompany(Company company) {
-
+    public void createCompany(Company company) {
+        companyRepository.save(company);
     }
 
     @Override
@@ -31,7 +37,12 @@ public class CompanyServiceImpl implements CompanyService{
 
     @Override
     public boolean deleteById(Long id) {
-        return false;
+        if(companyRepository.existsById(id)){
+            companyRepository.deleteById(id);
+            return true;
+        }
+        else{
+            return false;}
     }
 
     @Override

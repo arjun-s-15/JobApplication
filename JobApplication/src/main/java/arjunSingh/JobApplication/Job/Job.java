@@ -1,9 +1,9 @@
 package arjunSingh.JobApplication.Job;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import arjunSingh.JobApplication.Company.Company;
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
@@ -22,6 +22,8 @@ public class Job {
      private String maxSalary;
      private String location;
 
+     @ManyToOne
+     private Company company;
      public Job() {
      }
 }

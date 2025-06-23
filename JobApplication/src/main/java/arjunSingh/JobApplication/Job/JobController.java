@@ -1,5 +1,6 @@
 package arjunSingh.JobApplication.Job;
 
+import arjunSingh.JobApplication.Company.Company;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -33,9 +34,9 @@ public class JobController {
     public ResponseEntity<Job> findById(@PathVariable Long id) {
 
         Job job = jobService.findById(id);
-        if (job != null)
-            return new ResponseEntity<>(job, HttpStatus.OK);
-        return new ResponseEntity<>(job, HttpStatus.NOT_FOUND);
+        return (job != null)
+                ? ResponseEntity.ok(job)
+                : ResponseEntity.status(HttpStatus.NOT_FOUND).build();
 
     }
 
