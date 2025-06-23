@@ -1,18 +1,19 @@
 package arjunSingh.JobApplication.Company;
 
 import arjunSingh.JobApplication.Job.Job;
+import arjunSingh.JobApplication.Review.Review;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
+import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
 
 import java.util.List;
 
-@Getter
-@Setter
+@Data
 @AllArgsConstructor
 @Entity
 public class Company {
@@ -24,6 +25,9 @@ public class Company {
     @OneToMany(mappedBy = "company",cascade = CascadeType.ALL)
     @JsonIgnore
     private List<Job> jobs;
+
+    @OneToMany(mappedBy = "company",cascade = CascadeType.ALL)
+    private List<Review> review;
 
     public Company() {
     }
