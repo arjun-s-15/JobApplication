@@ -37,7 +37,7 @@ public class CompanyController {
             }
         }
 
-        @PutMapping
+        @PostMapping
         public ResponseEntity<String> addCompany(@RequestBody Company company){
             companyService.createCompany(company);
             return new ResponseEntity<>("Company added Successfully",HttpStatus.CREATED);

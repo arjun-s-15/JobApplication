@@ -1,8 +1,12 @@
 package arjunSingh.JobApplication.Job.impl;
 
+import arjunSingh.JobApplication.Company.Company;
+import arjunSingh.JobApplication.Company.CompanyRepository;
 import arjunSingh.JobApplication.Job.Job;
 import arjunSingh.JobApplication.Job.JobRepository;
 import arjunSingh.JobApplication.Job.JobService;
+import jakarta.persistence.EntityNotFoundException;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -10,11 +14,18 @@ import java.util.Optional;
 
 @Service
 public class JobServiceImpl implements JobService {
-    JobRepository jobRepository ;
 
-    public JobServiceImpl(JobRepository jobRepository) {
+    private final JobRepository jobRepository;
+    private final CompanyRepository companyRepository;
+
+    @Autowired
+    public JobServiceImpl(JobRepository jobRepository, CompanyRepository companyRepository) {
         this.jobRepository = jobRepository;
+        this.companyRepository = companyRepository;
     }
+
+
+
 
     private Long nextId = 1L;
     @Override
@@ -23,10 +34,14 @@ public class JobServiceImpl implements JobService {
     }
 
     @Override
-    public void createJob(Job job) {
-        job.setId(nextId++);
-      jobRepository.save(job);
+    public void createJob(Long companyId, Job job) {
+        Company company = companyRepository.findById(companyId)
+                .orElseThrow(() -> new EntityNotFoundException("Company not found with id: " + companyId));
+
+        job.setCompany(company);  // ✅ Setting company
+        jobRepository.save(job);
     }
+
 
     @Override
     public Job findById(Long id) {
@@ -36,12 +51,12 @@ public class JobServiceImpl implements JobService {
 
     @Override
     public boolean deleteById(Long id) {
-       if(jobRepository.existsById(id)){
-           jobRepository.deleteById(id);
-           return true;
-       }else{
-           return false;
-       }
+        if(jobRepository.existsById(id)){
+            jobRepository.deleteById(id);
+            return true;
+        }else{
+            return false;
+        }
 
     }
 
