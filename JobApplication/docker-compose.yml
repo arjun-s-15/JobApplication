@@ -1,0 +1,31 @@
+version: '3.8'
+
+services:
+  mysql:
+    image: mysql:8.0
+    container_name: mysql_container
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: jobapplication
+    ports:
+      - "3306:3306"
+    networks:
+      - springboot-mysql
+
+  springboot:
+    image: as15/jobapplicationimage
+    container_name: springboot_container
+    ports:
+      - "8080:8080"
+    depends_on:
+      - mysql
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:mysql://mysql:3306/jobapplication
+      SPRING_DATASOURCE_USERNAME: root
+      SPRING_DATASOURCE_PASSWORD: root
+    networks:
+      - springboot-mysql
+
+networks:
+  springboot-mysql:
+    driver: bridge
